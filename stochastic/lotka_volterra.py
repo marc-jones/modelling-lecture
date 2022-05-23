@@ -4,12 +4,12 @@ import pandas as pd
 from simulation_viewer import SimulationViewer
 
 def lotka_volterra(X, alpha, beta, delta, gamma):
-    x, y = X
+    prey, predator = X
     rates = [
-        x*alpha,
-        x*y*beta,
-        x*y*delta,
-        y*gamma
+        prey*alpha,
+        prey*predator*beta,
+        prey*predator*delta,
+        predator*gamma
     ]
     movements = [
         [ 1,  0],

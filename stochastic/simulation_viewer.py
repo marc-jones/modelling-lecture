@@ -19,7 +19,7 @@ class SimulationViewer:
         self.app.run_server(debug=True)
 
     def setup_layout(self, variable_list, species_list):
-        control_list = []
+        control_list = [html.Div(dash_bs.Button('Simulate', id='simulate-button'))]
         for var_name, var_start, var_max in variable_list + species_list:
             control_list.append(html.Label(var_name))
             control_list.append(
@@ -52,13 +52,17 @@ class SimulationViewer:
         self.species_names = [entry[0] for entry in species_list]
 
     def setup_callbacks(self, variable_list, species_list):
-        callback_args = [Output("output-graph", "figure")]
+        callback_args = [
+            Output("output-graph", "figure"),
+            Input("simulate-button", "n_clicks")
+        ]
         for var_name, var_start, var_max in species_list + variable_list:
             callback_args.append(Input("{}-slider".format(var_name), "value"))
         self.app.callback(*callback_args)(self.update_figures)
 
     def update_figures(self, *args):
         arg_list = list(args)
+        _button_clicks = arg_list.pop(0)
         start_state = np.array([int(arg_list.pop(0)) for species in self.species_names])
         max_time = arg_list.pop(0)
         t, X = self.run_simulation(start_state, max_time, arg_list)

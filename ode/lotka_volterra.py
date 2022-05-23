@@ -4,11 +4,11 @@ import pandas as pd
 from simulation_viewer import SimulationViewer
 
 def lotka_volterra(t, X, alpha, beta, delta, gamma):
-    x, y = X
+    prey, predator = X
     return(
         [
-            (alpha * x) - (beta * x * y),
-            (delta * x * y) - (gamma * y)
+            (alpha * prey) - (beta * prey * predator),
+            (delta * prey * predator) - (gamma * predator)
         ]
     )
 
